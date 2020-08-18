@@ -11,8 +11,10 @@ namespace WebApp
 {
     public class Program
     {
+        public static string[] Keys;
         public static void Main(string[] args)
         {
+            Keys = args;
             CreateHostBuilder(args).Build().Run();
         }
 
