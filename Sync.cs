@@ -17,7 +17,7 @@ namespace WebApp
             Word what = Word.GetWordFromRemote(Startup.GetRandomWord(urls) + "what");
             watch.Stop();
             string sentence = Word.CreateSentence(who, how, does, what);
-            return sentence + " Time: " + Convert.ToString(watch.ElapsedMilliseconds);
+            return sentence + " Sync Time: " + Convert.ToString(watch.ElapsedMilliseconds);
         }
     }
 }

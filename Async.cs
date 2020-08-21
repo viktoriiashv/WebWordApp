@@ -31,7 +31,7 @@ namespace WebApp
             var words = await Task.WhenAll(who, how, does, what);
             watch.Stop();
             string sentence = Word.CreateSentence(words);
-            return sentence + " Time: " + Convert.ToString(watch.ElapsedMilliseconds);
+            return sentence + " Async Time: " + Convert.ToString(watch.ElapsedMilliseconds);
 
         }
         public string GetSentenceFromRemote(string[] urls)

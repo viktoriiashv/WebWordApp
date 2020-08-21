@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,20 +35,26 @@ namespace WebApp
         public string ChooseStrategy(string[] urls)
         {
             IGetSentence strategy;
-            if(Program.Keys.Length == 0)
-            {
-                strategy = new Sync();
-            }
-            else if(Program.Keys[0] == "a")
+            if (Program.Keys.Length == 0)
             {
                 strategy = new Async();
             }
-            else
+            else if (Program.Keys[0] == "s")
             {
                 strategy = new Sync();
             }
+            else
+            {
+                strategy = new Async();
+            }
             return strategy.GetSentenceFromRemote(urls);
 
+        }
+
+        public void ConfigContext(HttpContext context)
+        {
+            context.Response.ContentType = "text/html; charset=utf-8";
+            context.Response.Headers.Add("InCamp-Student", Dns.GetHostName());
         }
 
 
@@ -65,51 +72,44 @@ namespace WebApp
              {
                  endpoints.MapGet("/", async context =>
                  {
-                     context.Response.ContentType = "text/html; charset=utf-8";
-                     context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                     ConfigContext(context);
                      await context.Response.WriteAsync("MyWebApp!");
                  });
 
                  endpoints.MapGet("/who", async context =>
                  {
-                     context.Response.ContentType = "text/html; charset=utf-8";
-                     context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                     ConfigContext(context);
                      await context.Response.WriteAsync(GetRandomWord(who));
                  });
 
                  endpoints.MapGet("/how", async context =>
                  {
-                     context.Response.ContentType = "text/html; charset=utf-8";
-                     context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                     ConfigContext(context);
                      await context.Response.WriteAsync(GetRandomWord(how));
                  });
 
                  endpoints.MapGet("/does", async context =>
                  {
-                     context.Response.ContentType = "text/html; charset=utf-8";
-                     context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                     ConfigContext(context);
                      await context.Response.WriteAsync(GetRandomWord(does));
                  });
 
                  endpoints.MapGet("/what", async context =>
                {
-                   context.Response.ContentType = "text/html; charset=utf-8";
-                   context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                   ConfigContext(context);
                    await context.Response.WriteAsync(GetRandomWord(what));
                });
 
                  endpoints.MapGet("/quote", async context =>
                {
-                   context.Response.ContentType = "text/html; charset=utf-8";
-                   context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
+                   ConfigContext(context);
                    await context.Response.WriteAsync(GetRandomWord(who) + " " + GetRandomWord(how) + " " + GetRandomWord(does) + " " + GetRandomWord(what));
                });
 
                  endpoints.MapGet("/incamp18-quote", async context =>
                {
-                   context.Response.ContentType = "text/html; charset=utf-8";
-                   context.Response.Headers.Add("InCamp-Student", "ShvetsViktoriia");
-                   string[] urls = { "http://localhost:5000/" };
+                   ConfigContext(context);
+                   string[] urls = { "http://server1/", "http://server2/", "http://server3/" };
                    await context.Response.WriteAsync(ChooseStrategy(urls));
                });
              });

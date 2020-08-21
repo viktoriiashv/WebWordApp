@@ -1,0 +1,40 @@
+version: "3"
+services:
+    server1:
+        build: #for startup without limits
+            context: ./
+        image: webapp #for startup with limits
+        ports:
+            - "5000:80"
+        deploy:
+            resources:
+                limits:
+                    memory: 50M
+        networks:
+          - backend
+    server2:
+        build: 
+            context: ./
+        image: webapp
+        ports:
+            - "5001:80"
+        deploy:
+            resources:
+                limits:
+                    memory: 50M
+        networks:
+          - backend
+    server3:
+        build: 
+            context: ./
+        image: webapp
+        ports:
+            - "5002:80"
+        deploy:
+            resources:
+                limits:
+                    memory: 50M
+        networks:
+          - backend
+networks:
+  backend:
