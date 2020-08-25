@@ -12,15 +12,15 @@ namespace WebApp
     public class Word
     {
         private HttpStatusCode StatusCode { get; set; }
-        private string WordString { get; set; }
-        private string GetFrom { get; set; }
+        private string Text { get; set; }//text
+        private string SourceOrigin { get; set; }//source origin
         private string HeaderString { get; set; }
 
-        public Word(HttpStatusCode statusCode, string word, string getFrom, string headerString)
+        public Word(HttpStatusCode statusCode, string text, string sourceOrigin, string headerString)
         {
             this.StatusCode = statusCode;
-            this.WordString = word;
-            this.GetFrom = getFrom;
+            this.Text = text;
+            this.SourceOrigin = sourceOrigin;
             this.HeaderString = headerString;
         }
 
@@ -29,11 +29,11 @@ namespace WebApp
             string line = "";
             if (StatusCode == HttpStatusCode.OK)
             {
-                line = WordString + " Received from: " + HeaderString + '\n';
+                line = Text + " Received from: " + HeaderString + '\n';
             }
             else
             {
-                line = "Nothing received from " + GetFrom + " because of error " + Convert.ToString(StatusCode) + '\n';
+                line = "Nothing received from " + SourceOrigin + " because of error " + Convert.ToString(StatusCode) + '\n';
             }
             return line;
         }
@@ -44,7 +44,7 @@ namespace WebApp
             string description = "";
             foreach (Word word in words)
             {
-                sentence += word.WordString + " ";
+                sentence += word.Text + " ";
                 description += word.CreateLine();
             }
             return sentence + '\n' + description + '\n';
@@ -54,10 +54,9 @@ namespace WebApp
         {
             string wordResult = "";
             string headerResult = "";
-            string getFrom = "";
             HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            getFrom = url;
+            string sourceOrigin = url;
             try
             {
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -101,7 +100,7 @@ namespace WebApp
                     statusCode = HttpStatusCode.InternalServerError;
                 }
             }
-            Word word = new Word(statusCode, wordResult, getFrom, headerResult);
+            Word word = new Word(statusCode, wordResult, sourceOrigin, headerResult);
             return word;
         }
 

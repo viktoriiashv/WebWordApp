@@ -6,11 +6,10 @@ using System.Diagnostics;
 
 namespace WebApp
 {
-    public class Async : IGetSentence
+    public class Async : IGetSentence 
     {
-        public async Task<string> AsyncGetSentenceFromRemote(string[] urls)
+        public async Task<List<Word>> AsyncGetWordListFromRemote(string[] urls)
         {
-            var watch = Stopwatch.StartNew();
             Task<Word> who = Task.Run(() =>
             {
                 return Word.GetWordFromRemote(Startup.GetRandomWord(urls) + "who");
@@ -27,16 +26,15 @@ namespace WebApp
             {
                 return Word.GetWordFromRemote(Startup.GetRandomWord(urls) + "what");
             });
-
-            var words = await Task.WhenAll(who, how, does, what);
-            watch.Stop();
-            string sentence = Word.CreateSentence(words);
-            return sentence + " Async Time: " + Convert.ToString(watch.ElapsedMilliseconds);
+            List<Word> words = new List<Word>(await Task.WhenAll(who, how, does, what));
+            
+            return words;
 
         }
-        public string GetSentenceFromRemote(string[] urls)
+        public Word[] GetWordListFromRemote(string[] urls)
         {
-            return AsyncGetSentenceFromRemote(urls).Result;
+            Word[] words = AsyncGetWordListFromRemote(urls).Result.ToArray();
+            return words;
         }
     }
 }

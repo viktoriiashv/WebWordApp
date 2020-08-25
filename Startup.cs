@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
+using System.Diagnostics;
 
 
 
@@ -47,7 +49,12 @@ namespace WebApp
             {
                 strategy = new Async();
             }
-            return strategy.GetSentenceFromRemote(urls);
+            var watch = Stopwatch.StartNew();
+            Word[] words = strategy.GetWordListFromRemote(urls);
+            watch.Stop();
+            string sentence = Word.CreateSentence(words);
+            sentence += strategy.GetType()+ " Time" + Convert.ToString(watch.ElapsedMilliseconds);
+            return sentence;
 
         }
 
@@ -109,7 +116,7 @@ namespace WebApp
                  endpoints.MapGet("/incamp18-quote", async context =>
                {
                    ConfigContext(context);
-                   string[] urls = { "http://server1/", "http://server2/", "http://server3/" };
+                   string[] urls = Environment.GetEnvironmentVariable("urls").Split(" ");
                    await context.Response.WriteAsync(ChooseStrategy(urls));
                });
              });

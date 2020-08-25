@@ -7,6 +7,6 @@ namespace WebApp
 {
     interface IGetSentence
     {
-        public string GetSentenceFromRemote(string[] urls);
+        public Word[] GetWordListFromRemote(string[] urls);
     }
 }
