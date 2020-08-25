@@ -12,6 +12,7 @@ services:
                     memory: 50M
         networks:
           - backend
+        
     server2:
         build: 
             context: ./

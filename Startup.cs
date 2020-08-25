@@ -116,7 +116,7 @@ namespace WebApp
                  endpoints.MapGet("/incamp18-quote", async context =>
                {
                    ConfigContext(context);
-                   string[] urls = Environment.GetEnvironmentVariable("urls").Split(" ");
+                   var urls = Environment.GetEnvironmentVariable("urls_list").Split(" ");
                    await context.Response.WriteAsync(ChooseStrategy(urls));
                });
              });
