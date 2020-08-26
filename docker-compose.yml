@@ -10,6 +10,8 @@ services:
             resources:
                 limits:
                     memory: 50M
+        environment:
+          - urls_list=http://server1/ http://server2/ http://server3/
         networks:
           - backend
         
@@ -23,6 +25,8 @@ services:
             resources:
                 limits:
                     memory: 50M
+        environment:
+          - urls_list=http://server1/ http://server2/ http://server3/
         networks:
           - backend
     server3:
@@ -35,6 +39,8 @@ services:
             resources:
                 limits:
                     memory: 50M
+        environment:
+          - urls_list=http://server1/ http://server2/ http://server3/
         networks:
           - backend
 networks:

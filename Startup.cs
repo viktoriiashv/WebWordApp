@@ -53,7 +53,7 @@ namespace WebApp
             Word[] words = strategy.GetWordListFromRemote(urls);
             watch.Stop();
             string sentence = Word.CreateSentence(words);
-            sentence += strategy.GetType()+ " Time" + Convert.ToString(watch.ElapsedMilliseconds);
+            sentence += strategy.GetType()+ " Time " + Convert.ToString(watch.ElapsedMilliseconds) + " ms";
             return sentence;
 
         }

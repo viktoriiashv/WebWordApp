@@ -14,14 +14,14 @@ namespace WebApp
         private HttpStatusCode StatusCode { get; set; }
         private string Text { get; set; }//text
         private string SourceOrigin { get; set; }//source origin
-        private string HeaderString { get; set; }
+        private string Header { get; set; }
 
-        public Word(HttpStatusCode statusCode, string text, string sourceOrigin, string headerString)
+        public Word(HttpStatusCode statusCode, string text, string sourceOrigin, string Header)
         {
             this.StatusCode = statusCode;
             this.Text = text;
             this.SourceOrigin = sourceOrigin;
-            this.HeaderString = headerString;
+            this.Header = Header;
         }
 
         public string CreateLine()
@@ -29,7 +29,7 @@ namespace WebApp
             string line = "";
             if (StatusCode == HttpStatusCode.OK)
             {
-                line = Text + " Received from: " + HeaderString + '\n';
+                line = Text + " Received from: " + Header + '\n';
             }
             else
             {
